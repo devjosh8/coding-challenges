@@ -1,2 +1,2 @@
-# coding-challenges
-Coding challenges written in plain Java Code.
+# Coding-Challenges
+Coding challenges mostly from https://projecteuler.net.
