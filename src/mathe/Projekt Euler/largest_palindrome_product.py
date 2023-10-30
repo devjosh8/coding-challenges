@@ -2,18 +2,6 @@
 https://projecteuler.net/problem=4
 '''
 
-numbers = []
-
-
-p = [int(x) for x in str(9009)]
-a = list(reversed(p))
-if p == a:
-    print("Palindrom!")
-
-
-value = 0
-
-
 results = []
 
 for x in reversed(range(100, 1000)):
@@ -27,8 +15,7 @@ for x in reversed(range(100, 1000)):
 
         if result == 0: continue
 
-        if palindrome == rev:
-            print("Palindrom gefunden: " + str(palindrome))
+        if palindrome == rev and palindrome not in results:
             results.append(result)
 
 
