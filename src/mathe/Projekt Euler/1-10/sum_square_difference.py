@@ -12,7 +12,7 @@ square_of_sum = float((n * (n + 1))/2)
 square_of_sum = float(square_of_sum * square_of_sum) # quadrieren
 
 
-# 0-100 jeweils quadriert umgeschrieben als kubisches Polynom
+# 0-100 jeweils quadriert umgeschrieben als kubisches Polynom, quadratische Pyramidialzahl https://de.wikipedia.org/wiki/Faulhabersche_Formel
 
 sum_of_squares = float((2*n*n*n + 3*n*n + n)/6)
 
