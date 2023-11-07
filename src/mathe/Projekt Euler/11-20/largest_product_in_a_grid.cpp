@@ -102,14 +102,7 @@ int main() {
         }
     }
 
-
-    for(int x = 0; x < 20; x++) {
-        for(int y = 0; y < 20; y++) {
-              cout << real_grid[x][y] << " ";
-        }
-        cout << endl;
-    } 
-
+    
     cout << "Größtes Produkt: " << result << endl;
 
     return 0;
