@@ -95,7 +95,7 @@ int main() {
 
     for(string a : numbers_strings) {
         for(char c : a) {
-            if(c != ' ' && c != '-') {
+            if(c != ' ' && c != '-' && c != '\0' && c != '\n') {
                 //cout << "Char: " << c;
                 result+=1;
             }
