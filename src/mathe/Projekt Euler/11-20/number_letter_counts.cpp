@@ -67,8 +67,8 @@ int main() {
             int hunderter_stelle = (i - einser_stelle - 10*zehner_stelle) / 100;
             
             if(zehner_stelle == 1) {
-                cout << "Zahl: " << einser_zahlen[hunderter_stelle] << "-hundred " << "and " << zehner_außnahmen[einser_stelle] << endl;
-                numbers_strings[i] = einser_zahlen[hunderter_stelle] + "-hundred " + "and " + zehner_außnahmen[einser_stelle];
+                cout << "Zahl: " << einser_zahlen[hunderter_stelle] << "-hundred " << "" << zehner_außnahmen[einser_stelle] << endl;
+                numbers_strings[i] = einser_zahlen[hunderter_stelle] + "-hundred " + "" + zehner_außnahmen[einser_stelle];
                 continue;
             }
 
@@ -79,15 +79,15 @@ int main() {
                 continue;
             }
             if(zehner_stelle == 0) {
-                cout << "Zahl: " << einser_zahlen[hunderter_stelle] << "-hundred " << "and " << einser_zahlen[einser_stelle] << endl;
-                numbers_strings[i] = einser_zahlen[hunderter_stelle] + "-hundred " + "and " + einser_zahlen[einser_stelle];
+                cout << "Zahl: " << einser_zahlen[hunderter_stelle] << "-hundred " << "" << einser_zahlen[einser_stelle] << endl;
+                numbers_strings[i] = einser_zahlen[hunderter_stelle] + "-hundred " + "" + einser_zahlen[einser_stelle];
         
 
                 continue;
             }
 
-            cout << "Zahl: " << einser_zahlen[hunderter_stelle] << "-hundred " << "and " << zehner_zahlen[zehner_stelle] << " " << einser_zahlen[einser_stelle] << endl;
-            numbers_strings[i] = einser_zahlen[hunderter_stelle] + "-hundred " + "and " + zehner_zahlen[zehner_stelle] + " " + einser_zahlen[einser_stelle];
+            cout << "Zahl: " << einser_zahlen[hunderter_stelle] << "-hundred " << "" << zehner_zahlen[zehner_stelle] << " " << einser_zahlen[einser_stelle] << endl;
+            numbers_strings[i] = einser_zahlen[hunderter_stelle] + "-hundred " + "" + zehner_zahlen[zehner_stelle] + " " + einser_zahlen[einser_stelle];
         }
     }
 
