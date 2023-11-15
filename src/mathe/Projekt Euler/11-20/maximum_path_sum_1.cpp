@@ -22,20 +22,43 @@ string input = "75 \n"
 "63 66 04 68 89 53 67 30 73 16 69 87 40 31 \n"
 "04 62 98 27 23 09 70 98 73 93 38 53 60 04 23 \n";
 
+bool triangle_mask[15][15] = {0};
 
-bool wayExists(bool triangle[15][15], int current_row, int index) {
-    if(current_row == 15) {
+int way_sum = 0;
+
+bool wayExists(bool triangle[15][15], int current_row, int index, int triangle_ints[15][15]) {
+
+    way_sum += triangle_ints[current_row][index];
+
+    if(current_row == 14) {
+        triangle_mask[current_row][index] = 1;
+
+        cout << "Weg gefunden mit Wert: " << way_sum << endl;
+        way_sum = 0;
         return true;
     }
-    
-    if( !(triangle[current_row][index]) && !(triangle[current_row][index+1]) ) {
-        return false;
-    } else {
-        bool non_inc = wayExists(triangle, current_row+1, index);
-        bool inc = wayExists(triangle, current_row+1, index+1);
 
-        if (inc) 
+    
+
+    bool exists = false;
+
+    if((triangle[current_row][index])) {
+        triangle_mask[current_row][index] = 1;
+        exists = exists | wayExists(triangle, current_row+1, index, triangle_ints);
     }
+
+    if((triangle[current_row][index+1])) {
+        triangle_mask[current_row][index+1] = 1;
+        exists = exists | wayExists(triangle, current_row+1, index+1, triangle_ints);
+    }
+
+    // Entweder rechts oder links, index oder index+1
+
+    if (!exists) {
+        way_sum = 0;
+    } 
+
+    return exists;
 }
 
 
@@ -83,7 +106,6 @@ int main() {
     // Erlaubter Weg: Entweder selber Index oder +1
     bool allowed_array[15][15] = {false};
 
-
     int sum = 0;
 
     while (true)
@@ -104,18 +126,21 @@ int main() {
 
         // Größte Zahl steht fest
         allowed_array[maxX][maxY] = true;
-        cout << "Große Zahl festgelegt" << endl;
+
+       
 
         // Überprüfen, ob es einen Pfad gibt
-
-        int currentIndex = 0;
-
-        if(wayExists(allowed_array, 0, 0)) {
+        if(wayExists(allowed_array, 0, 0, triangle)) {
             break;
         }
         
     }
+
+    // Mögliche Wege wurden gefunden
+    // Alle mögliche Wege müssen nun gefunden werden und der beste muss herausgesucht werden
     
+
+    // Jeder möglicher Weg bekommt eine ID: 
     cout << "Weg gefunden!" << endl;
 
     for(int x = 0; x < 15; x++) {
@@ -125,7 +150,20 @@ int main() {
         cout << endl;
     }
 
+
     cout << "Summe: " << sum << endl;
     
+
+    for(int x = 0; x < 15; x++) {
+        for(int y = 0; y < 15; y++) {
+            cout << triangle_mask[x][y] << " ";
+        }
+        cout << endl;
+    }
+
+    if(wayExists(triangle_mask, 0, 0, triangle)) {
+        cout << "Weg existiert" << endl;
+    }
+
     return 0;
 }
