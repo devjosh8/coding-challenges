@@ -4,6 +4,8 @@
 
 using namespace std;
 
+int result_sum = 0;
+
 string input = "75 \n"
 "95 64 \n"
 "17 47 82 \n"
@@ -21,10 +23,19 @@ string input = "75 \n"
 "04 62 98 27 23 09 70 98 73 93 38 53 60 04 23 \n";
 
 
-int calculateSum(int triangle[15][15]) {
+bool wayExists(bool triangle[15][15], int current_row, int index) {
+    if(current_row == 15) {
+        return true;
+    }
+    
+    if( !(triangle[current_row][index]) && !(triangle[current_row][index+1]) ) {
+        return false;
+    } else {
+        bool non_inc = wayExists(triangle, current_row+1, index);
+        bool inc = wayExists(triangle, current_row+1, index+1);
 
-
-    return 0;
+        if (inc) 
+    }
 }
 
 
@@ -77,6 +88,7 @@ int main() {
 
     while (true)
     {
+        result_sum = 0;
         int currentMin = 0;
         int maxX, maxY;
         sum = 0;
@@ -98,26 +110,9 @@ int main() {
 
         int currentIndex = 0;
 
-        bool found = true;
-
-
-        for(int row = 0; row < 15; row++) {
-            if(allowed_array[row][currentIndex]) {
-                sum+=triangle[row][currentIndex];
-                continue;
-            }
-            if(allowed_array[row][currentIndex+1]) {
-                currentIndex+=1;
-                 sum+=triangle[row][currentIndex];
-                continue;  
-            }
-
-            
-            found = false;
+        if(wayExists(allowed_array, 0, 0)) {
             break;
         }
-        
-        if(found)break;
         
     }
     
