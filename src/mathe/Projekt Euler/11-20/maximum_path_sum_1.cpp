@@ -26,6 +26,9 @@ string input = "75 \n"
 
 bool triangle_mask[15][15] = {0};
 
+void findLongestPath(int triangle_ints[15][15]);
+bool pathValueFinderRecursive(int current_row, int index, int triangle_ints[15][15], bool triangle_mask[15][15], string currentID, map<string, int> &pathValues, int current_path_value);
+
 bool wayExists(bool allowed_array[15][15], int current_row, int index, int triangle_ints[15][15]) {
     if(current_row >= 15) {
         return true;
@@ -38,27 +41,26 @@ bool wayExists(bool allowed_array[15][15], int current_row, int index, int trian
     bool exists = false;
 
     if((allowed_array[current_row+1][index])) {
-        triangle_mask[current_row+1][index] = 1;
-        exists = exists | wayExists(allowed_array, current_row+1, index, triangle_ints);
+        if(wayExists(allowed_array, current_row+1, index, triangle_ints)) {
+            triangle_mask[current_row+1][index] = 1;
+            exists = exists | true;
+        }
     }
 
     if((allowed_array[current_row+1][index+1])) {
-        triangle_mask[current_row+1][index+1] = 1;
-        exists = exists | wayExists(allowed_array, current_row+1, index+1, triangle_ints);
+        if(wayExists(allowed_array, current_row+1, index+1, triangle_ints)) {
+            triangle_mask[current_row+1][index+1] = 1;
+            exists = exists | true;
+        }
     }
 
     return exists;
 }
 
 
-void findLongestPath(int triangle_ints[15][15]);
-
 int main() {
-    // Idee: Langsam aber sicher die größten Zahlen aus der Pyramide raussuchen und in ein Array packen
-    // Nach jeder Hinzufügung einer Zahl versuchen, einen Pfad zu generieren
-    // Der erste Pfad der möglich ist, ist auch der beste Pfad
 
-    int triangle[15][15] = {01};
+    int triangle[15][15] = {0};
 
 
     string current_char = "";
@@ -90,6 +92,11 @@ int main() {
     // Array, das speichert, welche der Nodes in dem Array "erlaubt" sind
     bool allowed_array[15][15] = {false};
 
+
+    // Idee: Langsam aber sicher die größten Zahlen aus der Pyramide raussuchen und in ein Array packen
+    // Nach jeder Hinzufügung einer Zahl versuchen, einen Pfad zu generieren
+    // Der erste Pfad der möglich ist, ist auch der beste Pfad
+    // Wenn mehrere Pfade gleichzeitig möglich werden, alle Möglichkeiten überprüfen, welcher der "beste" Pfad ist
     while (true)
     {
         int currentMin = 0;
@@ -103,28 +110,27 @@ int main() {
                 }
             }
         }
-
         // Größte Zahl steht fest
         allowed_array[maxX][maxY] = true;
-
-       
 
         // Überprüfen, ob es einen Pfad gibt
         if(wayExists(allowed_array, 0, 0, triangle)) {
             break;
         }
         
+        
     }
 
     // Mögliche Wege wurden gefunden und alle Nodes die für die Wege verwendet wurden sind in der Triangle-Mask gespeichert
-    cout << "Weg gefunden!" << endl;
 
-    for(int x = 0; x < 15; x++) {
+    cout << "Wege wurden gefunden!" << endl;
+
+    /*for(int x = 0; x < 15; x++) {
         for(int y = 0; y < 15; y++) {
             cout << allowed_array[x][y] << " ";
         }
         cout << endl;
-    }
+    }*/
 
     cout << "Dreieck-Maske:" << endl;
 
@@ -141,40 +147,12 @@ int main() {
     return 0;
 }
 
-bool pathValueFinderIt(int current_row, int index, int triangle_ints[15][15], bool triangle_mask[15][15], string currentID, map<string, int> &pathValues, int current_path_value) {
-
-    if(current_row >= 15) {
-        pathValues.insert({currentID, current_path_value});
-        current_path_value = 0;
-        return true;
-    }
-
-
-    bool exists = false;
-
-    current_path_value+=triangle_ints[current_row][index];
-
-    if((triangle_mask[current_row+1][index])) {
-        exists = exists | pathValueFinderIt(current_row+1, index, triangle_ints, triangle_mask, currentID + "0", pathValues, current_path_value);
-    }
-
-    if((triangle_mask[current_row+1][index+1])) {
-        exists = exists | pathValueFinderIt(current_row+1, index+1, triangle_ints, triangle_mask, currentID + "1", pathValues, current_path_value);
-    }
-
-    if(!exists) {
-        currentID = "";
-        current_path_value = 0;
-    }
-    return exists;
-}
-
 void findLongestPath(int triangle_ints[15][15]) {
 
     triangle_mask[0][0] = 1;
 
     map<string, int> pathValues; // String (ID) / Int (Wert)
-    pathValueFinderIt(0, 0, triangle_ints, triangle_mask, " ", pathValues, 0);
+    pathValueFinderRecursive(0, 0, triangle_ints, triangle_mask, " ", pathValues, 0);
 
     cout << "Anzahl an gefundener möglicher Pfade: " << pathValues.size() << endl;
 
@@ -188,4 +166,32 @@ void findLongestPath(int triangle_ints[15][15]) {
     cout << "--------------------------------------------------------" << endl;
 
     cout << "Längster Pfad: " << longest_path;
+}
+
+bool pathValueFinderRecursive(int current_row, int index, int triangle_ints[15][15], bool triangle_mask[15][15], string currentID, map<string, int> &pathValues, int current_path_value) {
+
+    if(current_row >= 15) {
+        pathValues.insert({currentID, current_path_value});
+        current_path_value = 0;
+        return true;
+    }
+
+
+    bool exists = false;
+
+    current_path_value+=triangle_ints[current_row][index];
+
+    if((triangle_mask[current_row+1][index])) {
+        exists = exists | pathValueFinderRecursive(current_row+1, index, triangle_ints, triangle_mask, currentID + "0", pathValues, current_path_value);
+    }
+
+    if((triangle_mask[current_row+1][index+1])) {
+        exists = exists | pathValueFinderRecursive(current_row+1, index+1, triangle_ints, triangle_mask, currentID + "1", pathValues, current_path_value);
+    }
+
+    if(!exists) {
+        currentID = "";
+        current_path_value = 0;
+    }
+    return exists;
 }
