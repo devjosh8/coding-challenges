@@ -1,2 +1,2 @@
 # Coding-Challenges
-Coding challenges mostly from https://projecteuler.net.
+Coding Challenges größtenteilts von https://projecteuler.net.
